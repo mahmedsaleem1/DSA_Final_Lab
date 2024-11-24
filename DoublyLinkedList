@@ -1,0 +1,117 @@
+class NodeD{
+	public:
+		int data;
+		NodeD* next;
+		NodeD* prev;
+		
+		NodeD (int data) {
+			this -> data = data;
+			this -> next = nullptr;
+			this -> prev = nullptr;
+ 		}
+};
+
+class DoublyLinkedList{
+	public:
+		void InsertAtHead (NodeD* &head, int data) {
+			NodeD* temp = new NodeD(data);
+			
+			if (head != nullptr) {
+				temp -> next = head;
+				head -> prev = temp;
+			}
+			head = temp;
+		}
+		
+		void InsertAtTail (NodeD* &head, int data) {
+			NodeD* temp = new NodeD(data);
+			
+			if (head == nullptr) {
+				head = temp;
+				return;
+			}
+			
+			NodeD* current = head;
+			
+			while (current -> next != nullptr) {
+				current = current -> next;
+			}
+			
+			current -> next = temp;
+			temp -> prev = current;
+		}
+		
+		void InsertAtPosition (NodeD* &head, int data, int position) {
+			if (position < 1) return;
+			
+			NodeD* temp = new NodeD(data);
+			
+			if (position == 1) {
+				InsertAtHead(head, data);
+			}
+			
+			NodeD* current = head;
+			int count = 1;
+			
+			while (count < position -1 && current != nullptr) {
+				current = current -> next;
+				count++;
+			}
+			
+			if (current == nullptr) return; 
+			
+			temp -> next = current -> next;
+			temp -> prev = current;
+			
+			if (current -> next != nullptr) {
+				current -> next -> prev = temp;
+				current -> next = temp;
+			}
+		}
+		
+		void DeleteNode (NodeD* &head, int position) {
+			if (head == nullptr || position < 1) return;
+			
+		        NodeD* temp = head;
+		        
+		        if (position == 1) {
+		            head = head->next;
+		            if (head != nullptr) head->prev = nullptr;
+		            
+		            delete temp;
+		            return;
+		        }
+		        
+		        int count = 1;
+		        while (count < position && temp != nullptr) {
+		            temp = temp->next;
+		            count++;
+		        }
+		        
+		        if (temp == nullptr) return;
+		        if (temp->next != nullptr) temp->next->prev = temp->prev;
+		        if (temp->prev != nullptr) temp->prev->next = temp->next;
+		        
+		        delete temp;
+		}
+		
+		void TraverseForward(NodeD* &head) {
+	        NodeD* temp = head;
+	        while (temp != nullptr) {
+	            cout << temp->data << " ";
+	            temp = temp->next;
+	        }
+	        cout << endl;
+	    }
+	
+	    void TraverseBackward(NodeD* &head) {
+	        if (head == nullptr) return;
+	        NodeD* temp = head;
+	        while (temp->next != nullptr) temp = temp->next;
+	        while (temp != nullptr) {
+	            cout << temp->data << " ";
+	            temp = temp->prev;
+	        }
+	        cout << endl;
+	    }	
+};
