@@ -1,0 +1,88 @@
+class Node{
+	public:
+		int data;
+		Node* left;
+		Node* right;
+		
+		Node (int data) {
+			this -> data = data;
+			left = nullptr;
+			right = nullptr;
+		}	
+};
+
+class BinaryTree{
+	public:
+		Node* BuildTree (Node* &root) {
+			cout << "Enter the Data" << endl;
+			int data;
+			cin >> data;
+			
+			root = new Node(data);
+			
+			if (data == -1) return nullptr;
+			
+			cout << "Enter data for left of " << data << endl;
+			root -> left = BuildTree(root -> left);
+			
+			cout << "Enter data for Right of " << data << endl;
+			root -> right = BuildTree(root -> right);
+			
+			return root;
+		}
+		
+		void LevelOrderTraversal(Node* root) {
+			queue<Node*> q;
+			q.push(root);
+			q.push(nullptr);
+			
+			while (!q.empty()) {
+				Node* temp = q.front();
+				q.pop();
+				
+				if (temp == nullptr) {
+					cout << endl;
+					
+					if (!q.empty()) {
+						q.push(nullptr);
+					}
+ 				}
+ 				
+ 				else {
+ 					cout << temp -> data << " ";
+ 					
+ 					if (temp -> left) {
+ 						q.push(temp -> left);
+					}
+					
+					if (temp -> right) {
+						q.push(temp -> right);
+					}
+				}
+			}
+		}
+		
+		void PreOrderTraversal(Node* root) { //DLR
+			if (root == nullptr) return;
+			
+			cout << root -> data << " ";
+			PreOrderTraversal(root -> left);
+			PreOrderTraversal(root -> right);
+		}
+		
+		void InOrderTraversal(Node* root) { //LDR
+			if (root == nullptr) return;
+			
+			InOrderTraversal(root -> left);
+			cout << root -> data << " ";
+			InOrderTraversal(root -> right);
+		}
+		
+		void PostOrderTraversal(Node* root) { //LRD
+			if (root == nullptr) return;
+			
+			PostOrderTraversal(root -> left);
+			PostOrderTraversal(root -> right);
+			cout << root -> data << " ";
+		}
+};
