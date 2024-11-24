@@ -1,0 +1,123 @@
+class CircularLinkedList{
+	public:
+		
+	void InsertAtHead(Node* &tail, int data) {
+		Node* temp = new Node(data);
+		
+		if (tail == nullptr) {
+			tail = temp;
+			temp -> next = temp;
+			
+			return;
+		}
+		
+		temp -> next = tail -> next;
+		tail -> next = temp;
+		
+		return;
+	}
+	
+	void InsertAtEnd(Node* &tail, int data) {
+		Node* temp = new Node(data);
+		
+		if (tail == nullptr) {
+			tail = temp;
+			temp -> next = temp;
+			
+			return;
+		}
+		
+		temp -> next = tail -> next;
+		tail -> next = temp;
+		
+		tail = temp;
+		
+		return;
+		
+	}
+	
+	void InsertAtRandom(Node* &tail, int data, int position) {
+		if (position < 1) {
+			cout << "Invalid Position" << endl;
+			return;
+		}
+		
+		Node* temp = new Node(data);
+		
+		
+		if (tail == nullptr) {
+			if (position != 1) {
+				cout << "Enter Correct Position" << endl;
+				return;
+			}
+			tail = temp;
+			temp = temp -> next;
+			
+			return;
+		}
+		
+		Node* current = tail -> next;
+		int count = 1;
+		
+		while (count < position - 1) {
+			current = current -> next;
+			
+			if (current == tail -> next) {
+				cout << "Invalid Position" << endl;
+				return;
+			}
+		}
+		
+		temp -> next = current -> next;
+		current -> next = temp;
+		
+		if (current == tail) tail = temp;
+		
+		return;
+	}
+	
+	void deleteNode(Node* &tail, int value) {
+	    if(tail == nullptr) {
+	        cout << " List is empty, please check again" << endl;
+	        return;
+	    }
+	    else{
+	        Node* prev = tail;
+	        Node* curr = prev -> next;
+	
+	        while(curr -> data != value) {
+	            prev = curr;
+	            curr = curr -> next;
+	        }
+	
+	        prev -> next = curr -> next;
+	
+	        if(curr == prev) {
+	            tail = nullptr;
+	        }
+	
+	        else if(tail == curr ) {
+	            tail = prev;
+	        }
+	
+	        curr -> next = nullptr;
+	        delete curr;
+	    }
+	
+	}
+	
+	void Traverse(Node* tail) {
+		if (tail == nullptr) {
+			cout << "List is Empty" << endl;
+			return;
+		}
+		
+		Node* head = tail -> next;
+		
+		do {
+			cout << head -> data << " ";
+			head = head -> next;
+		} while (head != tail -> next);
+		cout << endl;
+	}
+};
